@@ -11,17 +11,17 @@ const Message = () => {
         console.log('Component mounted');
         
         // Set up real-time listener
-        echo.channel('messages-channel')
-            .listen('MessageEvent', (e) => {
+        echo.channel('messages')
+            .listen('MessageSentEvent', (e) => {
                 console.log(e);
                 
                 setMessages(prevMessages => [...prevMessages, e.message]);
-                toast.success(`New message: ${e.message.message}`);
+                toast.success(`New message: ${e.message.text}`);
             });
 
         return () => {
             // Clean up the listener on component unmount
-            echo.leaveChannel('messages-channel');
+            echo.leaveChannel('messages');
         };
     }, []);
     return (
@@ -30,14 +30,8 @@ const Message = () => {
             <div>
                 <h2>Message List:</h2>
                 <ul>
-                    <li>dasasd</li>
-                    <li>dasasd</li>
-                    <li>dasasd</li>
-                    <li>dasasd</li>
-                    <li>dasasd</li>
-
                     {messages.map((msg, index) => (
-                        <li key={index}>{msg.message}</li>
+                        <li key={index}>{msg.text}</li>
                     ))}
                 </ul>
             </div>
